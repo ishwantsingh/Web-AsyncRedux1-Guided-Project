@@ -1,11 +1,10 @@
-import * as types from './actionTypes';
-
+import * as types from "./actionTypes";
+import { statement } from "@babel/template";
 
 export function quotes(quotesArray = [], action) {
   switch (action.type) {
     case types.ADD_QUOTES:
-      // implement case
-      return quotesArray;
+      return action.payload;
     case types.ADD_QUOTE:
       return quotesArray.concat(action.payload);
     case types.DELETE_QUOTE:
@@ -28,5 +27,12 @@ export function quoteOfTheDay(quoteId = null, action) {
 
 export function spinner(isOn = false, action) {
   // implement
-  return isOn;
+  switch (action.type) {
+    case types.SPINNER_ON:
+      return true;
+    case types.SPINNER_OFF:
+      return false;
+    default:
+      return isOn;
+  }
 }

@@ -1,23 +1,55 @@
-import uuid from 'uuid';
-import * as types from './actionTypes';
-
+import uuid from "uuid";
+import * as types from "./actionTypes";
 
 export const deleteQuoteAsync = id => dispatch => {
-// implement
+  dispatch(spinnerOn());
+  fetch(`http://gabe.mockable.io/quotes/${id}`, { method: "DELETE" })
+    .then(res => res.json())
+    .then(data => {
+      dispatch(deleteQuote(data.id));
+      dispatch(spinnerOff());
+    });
 };
 
 export const getQuotesAsync = () => dispatch => {
-// implement
+  dispatch(spinnerOn());
+  fetch("http://gabe.mockable.io/quotes")
+    .then(res => res.json())
+    .then(quotes => {
+      dispatch({ type: types.ADD_QUOTES, payload: quotes });
+      dispatch(spinnerOff());
+    });
 };
 
 export const addQuoteAsync = quote => dispatch => {
-// implement
+  dispatch(spinnerOn());
+  fetch(`http://gabe.mockable.io/quotes`, {
+    method: "POST",
+    body: { quote }
+  })
+    .then(res => res.json())
+    .then(data => {
+      dispatch({ type: types.ADD_QUOTE, payload: data });
+      dispatch(spinnerOff());
+    });
 };
+
+export function spinnerOn() {
+  return {
+    type: types.SPINNER_ON
+  };
+}
+
+export function spinnerOff() {
+  return {
+    type: types.SPINNER_OFF
+  };
+}
 
 export function deleteQuote(id) {
   return {
     type: types.DELETE_QUOTE,
-    payload: id,
+    payload: id
   };
 }
 
@@ -27,14 +59,14 @@ export function addQuote(author, text) {
     payload: {
       id: uuid(),
       author,
-      text,
-    },
+      text
+    }
   };
 }
 
 export function makeQuoteOfTheDay(id) {
   return {
     type: types.MAKE_QUOTE_OF_THE_DAY,
-    payload: id,
+    payload: id
   };
 }
