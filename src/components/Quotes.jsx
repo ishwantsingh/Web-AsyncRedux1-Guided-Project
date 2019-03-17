@@ -12,8 +12,6 @@ import {
 export class Quotes extends React.Component {
   componentDidMount() {
     this.props.getQuotesAsync();
-    // Mmm. Geez I wonder what we could do here.
-    // Look at prop types for hints.
   }
 
   render() {

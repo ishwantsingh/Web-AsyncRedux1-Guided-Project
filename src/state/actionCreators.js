@@ -25,7 +25,7 @@ export const addQuoteAsync = quote => dispatch => {
   dispatch(spinnerOn());
   fetch(`http://gabe.mockable.io/quotes`, {
     method: "POST",
-    body: { quote }
+    body: JSON.stringify(quote)
   })
     .then(res => res.json())
     .then(data => {

@@ -1,25 +1,28 @@
-import React from 'react';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import { func, number } from 'prop-types';
-import { addQuoteAsync } from '../state/actionCreators';
-
+import React from "react";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import { func, number } from "prop-types";
+import { addQuoteAsync } from "../state/actionCreators";
 
 export class QuoteForm extends React.Component {
-  authorRef = React.createRef()
+  authorRef = React.createRef();
 
-  textRef = React.createRef()
+  textRef = React.createRef();
 
   onAddQuote = () => {
     const authorInput = this.authorRef.current;
     const textInput = this.textRef.current;
 
+    this.props.addQuoteAsync({
+      author: authorInput.value,
+      text: textInput.value
+    });
     // Invoke addQuoteAsync at this point.
     // Review its definition to know how to invoke it correctly.
 
-    authorInput.value = '';
-    textInput.value = '';
-  }
+    authorInput.value = "";
+    textInput.value = "";
+  };
 
   render() {
     return (
@@ -45,19 +48,25 @@ QuoteForm.propTypes = {
   // data
   numberOfQuotes: number.isRequired,
   // action creator
-  addQuoteAsync: func.isRequired,
+  addQuoteAsync: func.isRequired
 };
 
 function mapStateToProps(state) {
   return {
-    numberOfQuotes: state.quotes.length,
+    numberOfQuotes: state.quotes.length
   };
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({
-    addQuoteAsync,
-  }, dispatch);
+  return bindActionCreators(
+    {
+      addQuoteAsync
+    },
+    dispatch
+  );
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(QuoteForm);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(QuoteForm);
